@@ -1,0 +1,22 @@
+<!-- Location Selection Prompt -->
+<div class="container">
+    <div class="row d-flex justify-content-around">
+        <div class="col-8 location-prompt text-center p-4 rounded shadow m-1">
+            <h2 class="mb-3">Find Your Local Weather</h2>
+            <p class="mb-4">Use your current location to get started.</p>
+            <div class="d-flex justify-content-start">
+              <form action="/get-location" method="post">
+              <button type="submit" class="btn btn-primary" onclick="submitLocation()" >Use Current Location</button>
+              </form>
+            </div>
+          </div>
+        
+          <!-- Fact Display Div -->
+        <div class="col-4 fact-div text-start p-4 rounded shadow m-1">
+            <h2 class="mb-3">Did You Know?</h2>
+            <p class="fact-text">The coldest temperature ever recorded on Earth was -89.2°C (-128.6°F) at Vostok Station in Antarctica.</p>
+          </div>
+    </div>
+      
+</div>
+  

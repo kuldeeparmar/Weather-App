@@ -19,7 +19,15 @@
 <body>
 <header class="d-flex justify-content-between align-items-center p-3">
     <img src="images/logo.jpg" alt="App Logo" class="logo">
-      <form class="d-flex align-items-center" action="/submit" method="post">
+      <% if(locals.forecast){ %>
+
+        <form class="d-flex align-items-center" action="/forecast" method="post">
+      
+      <% }else{ %>
+
+        <form class="d-flex align-items-center" action="/submit" method="post">
+      
+      <% } %>
         <input type="text" placeholder="Search location" class="form-control me-2" id="location-search" name="location">
         <button class="btn btn-outline-light" id="search-btn" type="submit">Search</button>
       </form>

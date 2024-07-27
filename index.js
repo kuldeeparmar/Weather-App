@@ -10,8 +10,10 @@ const port = 3000;
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 env.config();
+app.use(bodyParser.json());
 
 const apiKey=process.env.apiKey;
+const forecastApiKey=process.env.forecastApiKey;
 
 
 function convertTimestampToPrettyString(unixTimestamp) {
@@ -67,6 +69,9 @@ function convertTimestampToPrettyString(unixTimestamp) {
   return prettyString;
 }
 
+
+
+
 app.get("/", (req, res) => {
   res.render("index.ejs");
 });
@@ -91,7 +96,9 @@ app.post("/submit", async (req, res) => {
 });
 
 app.post("/locationWeather",async(req,res)=>{
+
   var coordinate=req.body.coordinate;
+
   console.log(coordinate);
 
   var latAndLon=coordinate.split(",");
@@ -127,6 +134,101 @@ app.post("/locationWeather",async(req,res)=>{
 
 
 });
+
+app.get("/forecast",(req,res)=>{
+  res.render("index.ejs",{
+    forecast:true
+  });
+});
+
+
+
+app.post("/forecast", async (req,res)=>{
+
+  var location=req.body.location;
+  console.log(location);
+
+  try{
+    var result = await axios.get(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=5&appid=${apiKey}`);
+    console.log(result.data[0]);
+
+    var lat=result.data[0].lat;
+    var lon=result.data[0].lon;
+
+    var q=lat+','+lon;
+
+    console.log(q);
+
+
+   var response = await axios.get(`http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${forecastApiKey}&q=${q}`)
+
+   var locationKey= response.data.Key;
+
+   console.log(locationKey);
+
+   var forecast = await axios.get(`http://dataservice.accuweather.com/forecasts/v1/daily/1day/${locationKey}?apikey=${forecastApiKey}`)
+
+   console.log(forecast.data);
+
+   res.render("index.ejs",{
+    forecast : true,
+    location : location,
+    news : forecast.data
+   })
+
+
+
+  }catch(err){
+      console.log("Error While fetching location.");
+      console.log(err);
+  }
+});
+
+
+
+app.post("/get-location", async (req, res) => {
+  try {
+   var result = await axios.get(`http://localhost:4000/get-location`);
+   console.log(result.data);
+
+   var lat=result.data.latitude;
+
+  var lon=result.data.longitude;
+  
+  console.log(lat);
+  console.log(lon);
+
+  try{
+
+    var result = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&exclude=hourly,daily&appid=${apiKey}`);
+    console.log(result.data);
+    console.log(result.data.weather);
+
+    var temp=parseFloat(parseFloat(result.data.main.temp) - 273.15).toFixed(1);
+    var tempFeel=parseFloat(parseFloat(result.data.main.feels_like) - 273.15).toFixed(1);
+
+    var time = convertTimestampToPrettyString(result.data.dt);
+    
+    res.render("index.ejs",{
+      data : result.data,
+      time : time,
+      temp : temp,
+      tempFeel : tempFeel
+    })
+
+  }catch(err){
+    console.log("Error while fetching weather data");
+    console.log(err);
+  }
+
+
+   
+   
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting post" });
+  }
+});
+
 
 app.listen(port, () => {
   console.log(`Server running on port: ${port}`);
