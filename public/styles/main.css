@@ -1,0 +1,48 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(to bottom, #3498db, #ecf0f1);
+    color: #2c3e50;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: space-between;
+}
+
+header {
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    height: 40px;
+    border-radius: 20%;
+}
+
+
+
+
+nav.navbar {
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-item {
+    text-align: center;
+    color: #2c3e50;
+    text-decoration: none;
+}
+
+.nav-item .nav-label {
+    display: block;
+    font-size: 0.75rem;
+}
+
+.nav-item.active {
+    color: #3498db;
+}
+
+.weather-box {
+    /* border: 1px solid #000; */
+    padding: 10px;
+    margin: 5px;
+}

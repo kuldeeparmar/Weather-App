@@ -1,0 +1,90 @@
+<%- include("partials/header.ejs") %> <% if(locals.data && data.length>0){ %>
+<form
+  class="d-flex flex-wrap align-items-center justify-content-center"
+  action="/locationWeather"
+  method="post"
+>
+  <% for(var i=0;i<data.length;i++){ %>
+  <button class="d-flex align-items-center justify-content-center card m-4" style="width: 15rem" type="submit"
+          name="coordinate" value="<%=data[i].lat%>,<%=data[i].lon%>"
+  >
+    <div class="card-body">
+      <h5 class="card-title"> <%= data[i].name %> </h5>
+
+      <p class="card-text"> <%= data[i].state %>, <%= data[i].country %> </p>
+    </div>
+  </button>
+  <% } %>
+</form>
+
+<% }else if(locals.data){%>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-6 text-center">
+            <h1> <%= data.name %> </h1>
+        </div>
+        <div class="col-6 text-center">
+          <h2><%= time %> </h2>
+        </div>
+    </div>
+    <div class="d-flex justify-content-around align-items-center flex-wrap" style="width: 100%;">
+        <div class="weather-box">
+            <img src="https://openweathermap.org/img/wn/<%= data.weather[0].icon %>@2x.png">
+            <p><%= data.weather[0].main %></p>
+        </div>
+        <div class="weather-box">
+            <h3><%= temp %> °C</h3>
+            <p>Temp</p>
+        </div>
+        <div class="weather-box">
+            <h3><%= data.main.humidity %>%</h3>
+            <p>Humidity</p>
+        </div>
+        <div class="weather-box">
+            <h3><%= tempFeel %> °C</h3>
+            <p>Feels Like</p>
+        </div>
+        <div class="weather-box">
+            <h3><%= data.wind.speed %> meter/sec</h3>
+            <p>Wind Speed</p>
+        </div>
+        <div class="weather-box">
+            <h3><%= data.main.pressure %> hPa</h3>
+            <p>Pressure</p>
+        </div>
+    </div>
+</div>
+
+<% }else{ %>
+
+  <% } %>
+
+
+
+<nav class="navbar fixed-bottom navbar-light bg-light">
+  <div class="container-fluid justify-content-around">
+    <a href="/" class="nav-item active">
+      <i class="fas fa-home"></i>
+      <span class="nav-label">Home</span>
+    </a>
+    <a href="/forecast" class="nav-item">
+      <i class="fas fa-cloud-sun"></i>
+      <span class="nav-label">Forecast</span>
+    </a>
+    <a href="#" class="nav-item">
+      <i class="fas fa-map-marked-alt"></i>
+      <span class="nav-label">Map</span>
+    </a>
+    <a href="#" class="nav-item">
+      <i class="fas fa-exclamation-triangle"></i>
+      <span class="nav-label">Alerts</span>
+    </a>
+    <a href="#" class="nav-item">
+      <i class="fas fa-cog"></i>
+      <span class="nav-label">Settings</span>
+    </a>
+  </div>
+</nav>
+
+<%- include("partials/footer.ejs") %>
