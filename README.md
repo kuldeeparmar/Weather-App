@@ -34,6 +34,43 @@ Ensure you have the following installed on your system:
 
    ```bash
    git clone https://github.com/kuldeeparmar/Weather-App.git
-   cd 'Weather App'
+
+2. **Install Dependencies**
+
+   Navigate to the project directory and install the required dependencies.
+
+   ```bash
+   npm i
+
+3. **Set Up Environment Variables**
+
+   Create a `.env` file in the root directory and add the following environment variables:
+
+   ```bash
+   apiKey=your_OpenWeather_api_key
+   forecastApiKey=your_AccuWeather_api_key
+
+   Replace your_OpenWeather_api_key with your actual OpenWeather API key. You can obtain an API key by signing up at OpenWeather, and same for AccuWeather API key.
+
+###  Running the Application
+
+4. **Start the Front-end Server**
+
+   Use the following command to start the front-end application. This will run the app at `http://localhost:3000`.
+
+   ```bash
+   node index.js
+
+5. **Start the Sever for handle User location"**
+
+   Run the following command to start the server, which listens for API requests on port `4000`.
+
+   ```bash
+   node server.js
+
+   The server should be running at `http://localhost:4000` and handling User location requests from the front-end .
+
+   
+
 
 
